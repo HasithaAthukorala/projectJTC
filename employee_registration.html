@@ -27,6 +27,8 @@
     <link href="vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- Dropzone.js -->
+    <link href="vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="build/css/custom.css" rel="stylesheet">
@@ -170,21 +172,31 @@
                             </div>
                             <div class="x_content">
                                 <br />
+
                                 <form id="employee-registration" data-parsley-validate class="form-horizontal form-label-left">
 
                                     <div class="form-group">
-                                        <div class="col-md-4 col-sm-3 col-xs-12">
-                                            <label for="empCode" class="control-label">Employee Code</label>
-                                            <input type="text" id="empCode" readonly class="form-control">
+
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <div class="dropzone" id="myId" style="min-height: 170px!important;text-align: center;padding:5px !important;">
+
+                                            </div>
+
                                         </div>
-
-
-                                        <div class="col-md-8 col-sm-9 col-xs-12">
-                                            <label class="control-label" for="empName">Employee Name<span class="required">*</span>
-                                            </label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="form-group">
+                                                    <label for="empCode" class="control-label">Employee Code</label>
+                                                    <input type="text" id="empCode" readonly class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="empName">Employee Name<span class="required">*</span>
+                                                </label>
 
                                             <input type="text" id="empName" required="required" class="form-control">
+                                            </div>
                                         </div>
+
+
 
                                     </div>
 
@@ -291,20 +303,28 @@
 
                                     <div class="form-group">
 
-                                        <div class="col-md-6 col-sm-16 col-xs-12">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
                                             <label class="control-label" for="remarks">Remarks</label>
 
                                             <textarea id="remarks" class="form-control" placeholder="Remarks"></textarea>
                                         </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label">Gender *:</label>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <label class="control-label">Work Type</label>
                                             <p>
-                                                <input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required />
+                                                <input type="radio" class="flat" name="workType" value="piece" checked="" required />
+                                                Piece-Work Basis
                                             </p>
                                             <p>
-                                                <input type="radio" class="flat" name="gender" id="genderF" value="F" />
+                                                <input type="radio" class="flat" name="workType" value="monthly" />
+                                                Monthly Basis
                                             </p>
-
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <label class="control-label">Employee Status</label>
+                                            <p>
+                                                <input type="checkbox" class="flat" name="emStatus" value="active" checked="" required />
+                                                Active
+                                            </p>
                                         </div>
                                     </div>
 
@@ -381,9 +401,24 @@
 <script src="vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
 <!-- starrr -->
 <script src="vendors/starrr/dist/starrr.js"></script>
+<!-- Dropzone.js -->
+<script src="vendors/dropzone/dist/min/dropzone.min.js"></script>
 <!-- Custom Theme Scripts -->
 <script src="build/js/custom.min.js"></script>
 <script src="build/js/main.js"></script>
+<script>
+    $("div#myId").dropzone({
+        url: "build/submit/test.php",
+        addRemoveLinks: true,
+        thumbnailWidth: "100",
+        thumbnailHeight: "100",
+        dictCancelUpload: "Cancel",
+        autoProcessQueue: false,
+        dictDefaultMessage:"Upload a Profile Photo",
+        uploadMultiple: false,
+        maxFiles:1
+    });
+</script>
 
 </body>
 </html>
