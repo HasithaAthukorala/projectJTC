@@ -67,7 +67,6 @@
                         <ul class="nav side-menu">
                             <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
                             <li><a href="category.html"><i class="fa fa-edit"></i>Category</a></li>
-                            <li><a href="subcategory.html"><i class="fa fa-edit"></i>Sub Category</a></li>
                             <li><a href="material.html"><i class="fa fa-edit"></i>Material</a></li>
                             <li><a href="items.html"><i class="fa fa-edit"></i>Items</a></li>
                             <li><a href="customer_registration.html"><i class="fa fa-edit"></i>Customer Registration</a></li>
@@ -294,9 +293,13 @@
                                             <label class="control-label" for="empDepartment">Department/Division</label>
                                             <select class="form-control" id="empDepartment" name="empDepartment">
                                                 <option>Choose</option>
-                                                <option>Mr</option>
-                                                <option>Mrs</option>
-                                                <option>Miss</option>
+                                                <option>CUTTING</option>
+                                                <option>SAWING</option>
+                                                <option>WASHING</option>
+                                                <option>IRONING</option>
+                                                <option>CLOTHING</option>
+                                                <option>DRESSING</option>
+                                                <option>FINISHING</option>
                                             </select>
                                         </div>
 
@@ -408,15 +411,26 @@
 <script src="build/js/main.js"></script>
 <script>
     $("div#myId").dropzone({
-        url: "build/submit/test.php",
+        url: "build/submit/upload.php",
         addRemoveLinks: true,
         thumbnailWidth: "100",
         thumbnailHeight: "100",
         dictCancelUpload: "Cancel",
-        autoProcessQueue: false,
+        autoProcessQueue: true,
+        autoQueue:true,
         dictDefaultMessage:"Upload a Profile Photo",
         uploadMultiple: false,
-        maxFiles:1
+        maxFiles:1,
+        init:function () {
+            this.on("removedfile",function (file) {
+                $.ajax({
+                    url: 'build/submit/removeUpload.php?filetodelete='+file.name,
+                    type: "POST",
+                    data: { 'filetodelete': file.name}
+                });
+                
+            })
+        }
     });
 </script>
 
