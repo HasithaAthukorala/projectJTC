@@ -185,13 +185,13 @@
                                         <div class="col-md-9 col-sm-9 col-xs-12">
                                             <div class="form-group">
                                                     <label for="empCode" class="control-label">Employee Code</label>
-                                                    <input type="text" id="empCode" readonly class="form-control">
+                                                    <input type="text" id="empCode" readonly class="form-control" name="empCode">
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label" for="empName">Employee Name<span class="required">*</span>
                                                 </label>
 
-                                            <input type="text" id="empName" required="required" class="form-control">
+                                            <input type="text" id="empName" required="required" class="form-control" name="empName">
                                             </div>
                                         </div>
 
@@ -204,20 +204,24 @@
                                         <div class="col-md-2 col-sm-3 col-xs-12">
                                             <label class="control-label" for="empTitle">Title<span class="required">*</span></label>
                                             <select class="form-control" id="empTitle" required="required" name="empTitle">
-                                                <option>Choose</option>
-                                                <option>Mr</option>
-                                                <option>Mrs</option>
-                                                <option>Miss</option>
+                                                <option value="">Choose</option>
+                                                <option value="Mr.">Mr</option>
+                                                <option value="Mrs.">Mrs</option>
+                                                <option value="Miss.">Miss</option>
+                                                <option value="Dr.">Dr</option>
+                                                <option value="Prof.">Prof</option>
+                                                <option value="Ven.">Ven</option>
+                                                <option value="Company">Company</option>
                                             </select>
                                         </div>
 
                                         <div class="col-md-2 col-sm-3 col-xs-12">
                                             <label class="control-label" for="empGender">Gender<span class="required">*</span>
                                             </label>
-                                            <select class="form-control" id="empGender">
-                                                <option>Choose</option>
-                                                <option>Male</option>
-                                                <option>Female</option>
+                                            <select class="form-control" id="empGender" required="required" name="empGender">
+                                                <option value="">Choose</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
                                             </select>
                                         </div>
 
@@ -226,7 +230,7 @@
                                             <label class="control-label" for="empDName">Display Name<span class="required">*</span>
                                             </label>
 
-                                            <input type="text" id="empDName" required="required" class="form-control">
+                                            <input type="text" id="empDName" required="required" class="form-control" name="empDName">
                                         </div>
 
                                     </div>
@@ -234,15 +238,15 @@
 
                                     <div class="form-group">
                                         <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <label class="control-label" for="dateofbirth">Date Of Birth <span class="required">*</span>
+                                            <label class="control-label" for="empDoB">Date Of Birth <span class="required">*</span>
                                             </label>
-                                            <input type="date" class="form-control" placeholder="Date Of Birth" id="dateofbirth">
+                                            <input type="date" class="form-control" placeholder="Date Of Birth" id="empDoB" name="empDoB">
                                         </div>
 
                                         <div class="col-md-8 col-sm-8 col-xs-12">
-                                            <label class="control-label" for="cusAddress">Address</label>
+                                            <label class="control-label" for="empAddress">Address</label>
 
-                                            <input type="text" id="cusAddress" class="form-control">
+                                            <input type="text" id="empAddress" class="form-control" name="empAddress">
                                         </div>
                                     </div>
 
@@ -250,30 +254,30 @@
 
                                     <div class="form-group">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label" for="telephone">Telephone</label>
+                                            <label class="control-label" for="empTelephone">Telephone</label>
 
-                                            <input type="number" id="telephone" class="form-control">
+                                            <input type="number" id="empTelephone" class="form-control" name="empTelephone">
                                         </div>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label" for="mobile">Mobile<span class="required">*</span>
+                                            <label class="control-label" for="empMobile">Mobile<span class="required">*</span>
                                             </label>
 
-                                            <input type="number" id="mobile" required="required" class="form-control">
+                                            <input type="number" id="empMobile" required="required" class="form-control" name="empMobile">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label" for="fax">Fax</label>
+                                            <label class="control-label" for="empFax">Fax</label>
 
-                                            <input type="number" id="fax" class="form-control">
+                                            <input type="number" id="empFax" class="form-control" name="empFax">
                                         </div>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label" for="cusEmail">Email</label>
+                                            <label class="control-label" for="empEmail">Email</label>
 
-                                            <input type="text" id="cusEmail" class="form-control">
+                                            <input type="text" id="empEmail" class="form-control" name="empEmail">
                                         </div>
                                     </div>
 
@@ -283,49 +287,54 @@
 
                                     <div class="form-group">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label" for="referenceNo">Reference No<span class="required">*</span>
+                                            <label class="control-label" for="empRefNo">Reference No<span class="required">*</span>
                                             </label>
 
-                                            <input type="number" id="referenceNo" required="required" class="form-control" placeholder="NIC / Passport / Driving License etc..">
+                                            <input type="number" id="empRefNo" required="required" class="form-control" placeholder="NIC / Passport / Driving License etc.." name="empRefNo">
                                         </div>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <label class="control-label" for="empDepartment">Department/Division</label>
                                             <select class="form-control" id="empDepartment" name="empDepartment">
-                                                <option>Choose</option>
-                                                <option>CUTTING</option>
-                                                <option>SAWING</option>
-                                                <option>WASHING</option>
-                                                <option>IRONING</option>
-                                                <option>CLOTHING</option>
-                                                <option>DRESSING</option>
-                                                <option>FINISHING</option>
+                                                <option value="">Choose</option>
+                                                <option value="cutting">CUTTING</option>
+                                                <option value="sawing">SAWING</option>
+                                                <option value="washing">WASHING</option>
+                                                <option value="ironing">IRONING</option>
+                                                <option value="clothing">CLOTHING</option>
+                                                <option value="dressing">DRESSING</option>
+                                                <option value="finishing">FINISHING</option>
+                                                <option value="outsource">OUTSOURCE</option>
                                             </select>
                                         </div>
+                                    </div>
 
 
                                     <div class="form-group">
 
                                         <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <label class="control-label" for="remarks">Remarks</label>
+                                            <label class="control-label" for="empRemarks">Remarks</label>
 
-                                            <textarea id="remarks" class="form-control" placeholder="Remarks"></textarea>
+                                            <textarea id="empRemarks" class="form-control" placeholder="Remarks" name="empRemarks"></textarea>
                                         </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
                                             <label class="control-label">Work Type</label>
                                             <p>
-                                                <input type="radio" class="flat" name="workType" value="piece" checked="" required />
+                                                <input type="checkbox" class="flat" name="workType[]" value="piece" checked="" required />
                                                 Piece-Work Basis
+                                                 &nbsp;
+                                                <input type="checkbox" class="flat" name="workType[]" value="daily" required />
+                                                Daily-Work Basis
                                             </p>
                                             <p>
-                                                <input type="radio" class="flat" name="workType" value="monthly" />
+                                                <input type="checkbox" class="flat" name="workType[]" value="monthly" />
                                                 Monthly Basis
                                             </p>
                                         </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <div class="col-md-2 col-sm-6 col-xs-12">
                                             <label class="control-label">Employee Status</label>
                                             <p>
-                                                <input type="checkbox" class="flat" name="emStatus" value="active" checked="" required />
+                                                <input type="checkbox" class="flat" name="empStatus" value="active" checked="" required />
                                                 Active
                                             </p>
                                         </div>
@@ -432,6 +441,18 @@
             })
         }
     });
+
+
+    $("#employee-registration").submit(function () {
+        $.ajax({
+            url:"build/submit/insertEmployee.php",
+            type:"POST",
+            data:$(this).serialize(),
+            success:function (data) {
+                alert(data);
+            }
+        });
+    })
 </script>
 
 </body>

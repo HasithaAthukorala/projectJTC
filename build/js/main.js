@@ -73,6 +73,9 @@ $(document).ready(function () {
 
 
 
+
+
+
     // Defining a function to fetching request data from the database
     function fetch_requests() {
         $.ajax({
