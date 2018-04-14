@@ -47,11 +47,11 @@
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile_pic">
-                        <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                        <img src="build/images/admin_avatar.png" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
-                        <h2>John Doe</h2>
+                        <h2>Admin</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -69,6 +69,7 @@
                             <li><a href="items.html"><i class="fa fa-edit"></i>Items</a></li>
                             <li><a href="customer_registration.html"><i class="fa fa-edit"></i>Customer Registration</a></li>
                             <li><a href="employee_registration.html"><i class="fa fa-edit"></i>Employee Registration</a></li>
+                            <li><a href="employee_allowance.html"><i class="fa fa-edit"></i>Employee Allowance</a></li>
                         </ul>
                     </div>
                 </div>
@@ -104,7 +105,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="images/img.jpg" alt="">John Doe
+                                <img src="build/images/admin_avatar.png" alt="">Admin
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -153,23 +154,20 @@
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Settings 1</a>
-                                            </li>
-                                            <li><a href="#">Settings 2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
                                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                                     </li>
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <br />
+                                <div class="row">
+                                    <div class="alert alert-success col-md-6 center-margin" role="alert" style="display: none;"  id="catSuccess">
+                                        Updated Successfully!
+                                    </div>
+                                </div>
+                                <br>
                                 <form id="category-form" class="form-horizontal form-label-left">
+
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="category-code">Category Code</label>
@@ -394,7 +392,8 @@
     <script src="build/js/select2.min.js"></script>
     <!-- validator -->
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
-
+    <!-- Dropzone.js -->
+    <script src="vendors/dropzone/dist/min/dropzone.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="build/js/custom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
@@ -407,52 +406,31 @@
                 url:"build/submit/test.php",
                 method:"POST",
                 success:function (data) {
-                    $("#category-code").val(++data);
+                    $("#category-code").val(data);
                 }
             });
 
-
-            $("#category-name").change(function () {
-                var query = $(this).val();
-                  $.ajax({
-                    url:"build/submit/updateCategoryCode.php",
-                    method:"POST",
-                    data:{query:query},
+            $('#category-select').select2({
+                ajax : {
+                    url:"build/submit/fetchCategory.php",
                     dataType:"json",
-                    success:function (data) {
+                    delay:250,
+                    processResults:function(data)
+                    {
                         console.log(data);
-                        $("#category-code").val(data);
+                        return {
+                            results:data
+                        }
+                    },cache:true
+                }
 
-                    }
-                })
             });
-
 
         });
 
 
     </script>
 
-<script>
-    $(document).ready(function () {
-        $('#category-select').select2({
-            ajax : {
-                url:"build/submit/fetchCategory.php",
-                dataType:"json",
-                delay:250,
-                processResults:function(data)
-                {
-                    console.log(data);
-                    return {
-                        results:data
-                    }
-                },cache:true
-            }
-
-        });
-    });
-
-</script>
 
 </body>
 </html>

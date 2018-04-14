@@ -11,6 +11,7 @@ $(document).ready(function () {
 
     // Calling fetch requests function
     fetch_requests();
+    fetchEmployeesWidget();
 
 
     // Configuring method to insert requests in to database
@@ -51,17 +52,71 @@ $(document).ready(function () {
 
 
     $("#update-category-form").validate({
-        submitHandler: function(form) {
+        submitHandler: function(formCategory) {
             // some other code
             // maybe disabling submit button
             // then:
-            updateCategory(form);
+            updateCategory(formCategory);
         }
     });
 
+    $("div#myId").dropzone({
+        url: "build/submit/upload.php",
+        addRemoveLinks: true,
+        thumbnailWidth: "100",
+        thumbnailHeight: "100",
+        dictCancelUpload: "Cancel",
+        autoProcessQueue: false,
+        autoQueue:true,
+        dictDefaultMessage:"Upload a Profile Photo",
+        uploadMultiple: false,
+        maxFiles:1,
+        thumbnailMethod:"contain",
+        resizeWidth:100,
+        init:function () {
+            var myDropZone = this;
+            var filename ;
+            this.on("success", function(data,response) {
+                /* Maybe display some more file information on your page */
+               filename = response;
+               insertEmployee($("#employee-registration"),filename);
+                $('.dz-preview').remove();
+                $('.dz-default').show();
+
+            });
+
+            this.on("removedfile",function (file) {
+
+                $.ajax({
+                    url: 'build/submit/removeUpload.php?filetodelete='+filename,
+                    type: "POST",
+                    data: { 'filetodelete': filename}
+                });
+            });
+            $("#employee-registration").validate({
+                submitHandler: function(formEmployee) {
+                    // some other code
+                    // maybe disabling submit button
+                    // then:
+                    if (myDropZone.files.length == 0){
+                        filename = "avatar.png";
+                        insertEmployee($("#employee-registration"),filename);
+                    }else{
+                        // myDropZone.enqueueFile(filename);
+                        myDropZone.processQueue();
+                    }
 
 
 
+
+                }
+            });
+
+        }
+
+    });
+
+    //End of Employee Registration with the dropzone
 
 
 
@@ -136,7 +191,7 @@ $(document).ready(function () {
         source: function(query, result)
         {
             $.ajax({
-                url:".build/submit/fetchCategorySearch.php",
+                url:"build/submit/fetchCategorySearch.php",
                 method:"POST",
                 data:{query:query},
                 dataType:"json",
@@ -148,7 +203,21 @@ $(document).ready(function () {
                     }));
                 }
             });
+        },
+        autoSelect: false,
+        afterSelect:function (item) {
+            $.ajax({
+                url:"build/submit/updateCategoryCode.php",
+                method:"POST",
+                data:{query:item},
+                dataType:"text json",
+                success:function (data1) {
+                    $("#category-code").val(data1[0]['cat_code']);
+                    $("#category-remarks").val(data1[0]['cat_remarks']);
+                }
+            });
         }
+
     });
 
 
@@ -165,17 +234,26 @@ $(document).ready(function () {
     }
 
     // Function to Insert category to database
-
     function insertCategory(form) {
         $.ajax({
             url:"build/submit/categoryInsert.php",
             method:"POST",
             data:$(form).serialize(),
             success:function (data) {
-                $("#category-name").val("");
-                $("#category-remarks").val("");
-                var currentCode = $("#category-code").val();
-                $("#category-code").val(++currentCode);
+                if(data == "true"){
+                    $('#catSuccess').fadeIn('fast').delay(1000).fadeOut('slow');
+                    $("#category-name").val("");
+                    $("#category-remarks").val("");
+                    $.ajax({
+                        url:"build/submit/test.php",
+                        method:"POST",
+                        success:function (data) {
+                            $("#category-code").val(data);
+                        }
+                    });
+                }
+
+
             }
         });
 
@@ -186,14 +264,48 @@ $(document).ready(function () {
 
     function updateCategory(form) {
         $.ajax({
-            url:"build/submit/categoryUpdate.php",
-            method:"POST",
-            data:$(form).serialize(),
-            success:function (data) {
-               alert(data);
+            url: "build/submit/categoryUpdate.php",
+            method: "POST",
+            data: $(form).serialize(),
+            success: function (data) {
+                alert(data);
             }
         });
 
+    }
+
+    function insertEmployee(form,filename) {
+        $.ajax({
+            url: "build/submit/insertEmployee.php",
+            type: "POST",
+            data: $(form).serialize()+'&empThumb='+filename,
+            success: function (data) {
+                if(data == "true"){
+                    $('#empSuccess').fadeIn('fast').delay(1000).fadeOut('slow');
+                }
+                $.ajax({
+                    url:"build/submit/getLastEmpCode.php",
+                    method:"POST",
+                    success:function (data) {
+                        $(form).trigger("reset");
+                        $("#empCode").val(data);
+                    }
+                });
+
+            }
+        });
+    }
+
+    function fetchEmployeesWidget() {
+        $.ajax({
+            url:"build/submit/fetchEmployeesWidget.php",
+            method:"POST",
+            success:function (data) {
+                $('#empAllowanceWidget tbody').html(data);
+            },
+            error: function(xhr, textStatus, errorThrown){
+            }
+        });
     }
 
 

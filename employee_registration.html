@@ -49,11 +49,11 @@
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile_pic">
-                        <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                        <img src="build/images/admin_avatar.png" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
-                        <h2>John Doe</h2>
+                        <h2>Admin</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -71,6 +71,7 @@
                             <li><a href="items.html"><i class="fa fa-edit"></i>Items</a></li>
                             <li><a href="customer_registration.html"><i class="fa fa-edit"></i>Customer Registration</a></li>
                             <li><a href="employee_registration.html"><i class="fa fa-edit"></i>Employee Registration</a></li>
+                            <li><a href="employee_allowance.html"><i class="fa fa-edit"></i>Employee Allowance</a></li>
                         </ul>
                     </div>
                 </div>
@@ -106,7 +107,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="images/img.jpg" alt="">John Doe
+                                <img src="build/images/admin_avatar.png" alt="">Admin
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -155,24 +156,18 @@
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Settings 1</a>
-                                            </li>
-                                            <li><a href="#">Settings 2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
+
                                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                                     </li>
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <br />
+                                <div class="alert alert-success" role="alert" style="display: none;" id="empSuccess">
+                                    Successfully Registered!
+                                </div>
 
-                                <form id="employee-registration" data-parsley-validate class="form-horizontal form-label-left">
+                                <form id="employee-registration" class="form-horizontal form-label-left" enctype="multipart/form-data">
 
                                     <div class="form-group">
 
@@ -240,7 +235,7 @@
                                         <div class="col-md-4 col-sm-4 col-xs-12">
                                             <label class="control-label" for="empDoB">Date Of Birth <span class="required">*</span>
                                             </label>
-                                            <input type="date" class="form-control" placeholder="Date Of Birth" id="empDoB" name="empDoB">
+                                            <input type="date" class="form-control" placeholder="Date Of Birth" id="empDoB" name="empDoB" required="required">
                                         </div>
 
                                         <div class="col-md-8 col-sm-8 col-xs-12">
@@ -320,14 +315,14 @@
                                         <div class="col-md-4 col-sm-6 col-xs-12">
                                             <label class="control-label">Work Type</label>
                                             <p>
-                                                <input type="checkbox" class="flat" name="workType[]" value="piece" checked="" required />
+                                                <input type="checkbox" class="flat" name="empWorkType[]" value="piece" checked="" required />
                                                 Piece-Work Basis
                                                  &nbsp;
-                                                <input type="checkbox" class="flat" name="workType[]" value="daily" required />
+                                                <input type="checkbox" class="flat" name="empWorkType[]" value="daily" required />
                                                 Daily-Work Basis
                                             </p>
                                             <p>
-                                                <input type="checkbox" class="flat" name="workType[]" value="monthly" />
+                                                <input type="checkbox" class="flat" name="empWorkType[]" value="monthly" />
                                                 Monthly Basis
                                             </p>
                                         </div>
@@ -351,13 +346,14 @@
                                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                             <button class="btn btn-primary" type="button">Cancel</button>
                                             <button class="btn btn-primary" type="reset">Reset</button>
-                                            <button type="submit" class="btn btn-success">Submit</button>
+                                            <button type="submit" class="btn btn-success" id="empSubmit">Submit</button>
                                         </div>
                                     </div>
 
                                     </form>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -415,44 +411,26 @@
 <script src="vendors/starrr/dist/starrr.js"></script>
 <!-- Dropzone.js -->
 <script src="vendors/dropzone/dist/min/dropzone.min.js"></script>
+<!-- validator -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 <!-- Custom Theme Scripts -->
 <script src="build/js/custom.min.js"></script>
 <script src="build/js/main.js"></script>
 <script>
-    $("div#myId").dropzone({
-        url: "build/submit/upload.php",
-        addRemoveLinks: true,
-        thumbnailWidth: "100",
-        thumbnailHeight: "100",
-        dictCancelUpload: "Cancel",
-        autoProcessQueue: true,
-        autoQueue:true,
-        dictDefaultMessage:"Upload a Profile Photo",
-        uploadMultiple: false,
-        maxFiles:1,
-        init:function () {
-            this.on("removedfile",function (file) {
-                $.ajax({
-                    url: 'build/submit/removeUpload.php?filetodelete='+file.name,
-                    type: "POST",
-                    data: { 'filetodelete': file.name}
-                });
-                
-            })
+
+
+    $.ajax({
+        url:"build/submit/getLastEmpCode.php",
+        method:"POST",
+        success:function (data) {
+            $("#empCode").val(data);
         }
     });
 
 
-    $("#employee-registration").submit(function () {
-        $.ajax({
-            url:"build/submit/insertEmployee.php",
-            type:"POST",
-            data:$(this).serialize(),
-            success:function (data) {
-                alert(data);
-            }
-        });
-    })
+
+
+
 </script>
 
 </body>

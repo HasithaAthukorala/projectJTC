@@ -9,14 +9,36 @@
 
 $conn = mysqli_connect('localhost','root','','project');
 
-$query = "SELECT `cat_code` FROM `category` ORDER BY `cat_code` DESC";
-$result = mysqli_query($conn,$query);
-$row = mysqli_fetch_assoc($result);
 
 date_default_timezone_set('Asia/Colombo');
 $date = date("d-m-Y h:i:s A");
+$cat_code = mysqli_real_escape_string($conn,$_POST['category-code']);
+$cat_name = mysqli_real_escape_string($conn,$_POST['category-name']);
+$cat_remarks = mysqli_real_escape_string($conn,$_POST['category-remarks']);
 
-$query_insert_data = "INSERT INTO `category`(`cat_id`,`cat_code`,`cat_name`,`cat_remarks`,`last_update`) VALUES (NULL,'{$_POST['category-code']}','{$_POST['category-name']}','{$_POST['category-remarks']}','$date')";
+// Checking Whether the cat_code is already exists in the table..
+$query_check_code = "SELECT * FROM `category` WHERE `cat_code` = '$cat_code'";
+$result_check_code = mysqli_query($conn,$query_check_code);
 
-$result_insert_data = mysqli_query($conn,$query_insert_data);
+if(mysqli_num_rows($result_check_code) > 0)
+{
+    $query_update_data = "UPDATE `category` SET `cat_name` = '$cat_name',`cat_remarks` = '$cat_remarks',`last_update`='$date' WHERE `cat_code` = '$cat_code'";
+    $result_update_data = mysqli_query($conn,$query_update_data);
+    if($result_update_data){
+        echo "true";
+    }else {
+        echo "false";
+    }
+}else{
+
+    $query_insert_data = "INSERT INTO `category`(`cat_code`,`cat_name`,`cat_remarks`,`last_update`) VALUES ('$cat_code','$cat_name','$cat_remarks','$date')";
+    $result_insert_data = mysqli_query($conn,$query_insert_data);
+    if($result_insert_data){
+        echo "true";
+    }else {
+        echo "false";
+    }
+
+}
+
 

@@ -45,3 +45,8 @@
 .order-date {
     font-size: 10px !important;
 }
+
+.emp-thumb {
+    height: 50px;
+    width: auto;
+}
